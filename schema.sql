@@ -1,6 +1,6 @@
 -- Creare baza de date
-CREATE DATABASE IF NOT EXISTS news_finance_app;
-USE news_finance_app;
+CREATE DATABASE IF NOT EXISTS strym_app_db;
+USE strym_app_db;
 
 -- Tabelul users
 CREATE TABLE users (
@@ -8,24 +8,31 @@ CREATE TABLE users (
     username VARCHAR(255) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
-    first_name VARCHAR(100),
-    last_name VARCHAR(100),
     profile_picture VARCHAR(255) DEFAULT 'default.jpg',
     bio TEXT,
+    role ENUM('user', 'admin') DEFAULT 'user',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+CREATE TABLE admin_approvals (
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    approved_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+ 
 -- Tabelul posts
 CREATE TABLE posts (
     post_id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     content TEXT NOT NULL,
-    image_url VARCHAR(255),
+    media_url VARCHAR(255),
+    media_type ENUM('image', 'video') DEFAULT 'image',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES users(user_id)
 );
+
 
 -- Tabelul comments
 CREATE TABLE comments (
