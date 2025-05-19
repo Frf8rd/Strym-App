@@ -8,8 +8,6 @@ class User(db.Model):
     username = db.Column(db.String(255), unique=True, nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
-    first_name = db.Column(db.String(100))
-    last_name = db.Column(db.String(100))
     profile_picture = db.Column(db.String(255), default='default.jpg')
     bio = db.Column(db.Text)
     role = db.Column(db.Enum('user', 'admin'), default='user')

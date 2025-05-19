@@ -1,179 +1,244 @@
 body {
-    margin: 0;
-    font-family: Markazi Text;
-    background-color: #1e222a; /* fundal negru-albăstrui */
+  margin: 0;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background-color: #0a0a0a;
+  color: #fff;
 }
 
-.login {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-color: #1e222a; /* fundal negru-albăstrui */
+.auth-container {
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+background: #0a0a0a;
+padding: 20px;
 }
 
-.login-container {
-    display: flex;
-    background-color: #9a8c7a; /* bej-maroniu */
-    border-radius: 20px;
-    padding: 40px;
-    height: 500px;
-    width: 1000px;
+.auth-box {
+display: flex;
+background: #121212;
+border-radius: 16px;
+overflow: hidden;
+box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+width: 1000px;
+max-width: 100%;
+min-height: 600px;
+border: 1px solid #252525;
 }
 
-.login-form {
-    flex: 1.6;
-    display: flex;
-    flex-direction: column;
-    justify-content: center; /* center vertically */
-    align-items: center; /* center horizontally */
-    gap: 30px; /* distanță mai mare între câmpurile de input */
-    padding: 20px;
-    text-align: center; /* centrarea conținutului pe orizontală */
-    position: relative;
-    top: -50px;
+.auth-content {
+flex: 1;
+padding: 60px;
+display: flex;
+flex-direction: column;
+justify-content: center;
 }
 
-.logo {
-    margin-bottom: 10px;
+.auth-header {
+margin-bottom: 40px;
+text-align: center;
 }
 
-.title {
-    color: #222831;
-    font-size: 100px;
-    text-align: center;
-    margin-bottom: 20px;
-    font-family: Markazi Text;
-
+.auth-logo {
+display: flex;
+align-items: center;
+justify-content: center;
+gap: 10px;
+margin-bottom: 20px;
+color: #4a90e2;
+font-weight: 700;
+font-size: 1.5rem;
 }
 
-.login-mode .input-field {
-    width: 90%;           /* mai lat */
-    height: 50px;         /* mai înalt */
-    border: none;
-    border-radius: 20px;
-    padding-left: 15px;
-    
-    font-size: 18px;      /* font puțin mai mare pentru a se potrivi */
-    margin-bottom: 30px;
-    
-    outline: none;
-    box-shadow: none;
-
+.auth-header h1 {
+font-size: 2.2rem;
+color: #fff;
+margin-bottom: 10px;
+font-weight: 600;
 }
 
-.input-field:hover {
-    background-color: #393E46; /* un albastru palid */
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3); /* umbră discretă */
-    transition: background-color 0.3s ease, box-shadow 0.3s ease; /* tranziție lină */
+.auth-subtitle {
+color: #a0a0a0;
+font-size: 1rem;
+margin-bottom: 0;
 }
 
-.register-mode .input-field {
-    width: 90%;           /* mai lat */
-    height: 50px;         /* mai înalt */
-    border: none;
-    border-radius: 20px;
-    padding-left: 15px;
-    
-    font-size: 18px;      /* font puțin mai mare pentru a se potrivi */
-    margin-bottom: 10px;
-    
-    outline: none;
-    box-shadow: none;
-  }
-
-
-.login-button {
-    width: 30%;
-    height: 50px;
-    padding: 10px 20px;
-    border-radius: 20px;
-    border: none;
-    background-color: #393E46;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 10px;
-    font-size: 20px;
-    color: #ffffff; /* 🔵 culoarea textului */
+.auth-form {
+display: flex;
+flex-direction: column;
+gap: 20px;
+width: 100%;
+max-width: 400px;
+margin: 0 auto;
 }
 
-
-.login-button:hover {
-    background-color: #b5b5b5; /* culoare gri la hover */
+.form-group {
+display: flex;
+flex-direction: column;
+gap: 8px;
+width: 100%;
 }
 
-.image-block {
-    flex: 2;
-    background-color: #dcdcdc;
-    border-radius: 20px;
-    margin-left: 20px;
-    height: 100%;          /* 🔵 face blocul să ocupe toată înălțimea părintelui */
-    overflow: hidden; 
-    transition: transform 1s ease;      /* 🔵 ascunde orice parte care iese din container */
+.auth-input {
+padding: 16px;
+background: #1e1e1e;
+border: 1px solid #2e2e2e;
+border-radius: 8px;
+font-size: 0.95rem;
+color: #fff;
+transition: all 0.3s ease;
+width: 100%;
+box-sizing: border-box;
 }
 
-
-.image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 20px;
-    transition: transform 1s ease; /* tranziție lină */
+.auth-input::placeholder {
+color: #555;
 }
 
-.image:hover {
-    transform: scale(1.03); /* Mărește imaginea cu 10% */
-}
-.image-block:hover {
-    transform: scale(1.03); /* Mărește blocul cu 5% */
-}
-
-.toggle-button {
-    background: none;
-    border: none;
-    color: #ffffff;
-    cursor: pointer;
-    font-size: 14px;
-    
-    margin-top: 10px;
-    transition: color 0.3s ease;
+.auth-input:focus {
+border-color: #4a90e2;
+outline: none;
+box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
 }
 
-.toggle-button:hover {
-    color: #393E46; /* culoare la hover */
+.error-message {
+color: #ff6b6b;
+background: rgba(255, 107, 107, 0.1);
+padding: 12px;
+border-radius: 8px;
+font-size: 0.9rem;
+text-align: center;
+border: 1px solid rgba(255, 107, 107, 0.2);
 }
-.login-form form {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  width: 100%;
-}
 
-
-.form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-
-
-  .forgot-password {
-    align-self: flex-start;         /* 🔴 aliniere la stânga în form */
-    background: transparent;
-    border: none;
-    color: #ffffff;                 /* alb */
-    cursor: pointer;
-    font-size: 14px;
-    padding: 0;
-    margin-top: -20px;              /* 🔧 opțional: îl apropii mai mult de input */
-    margin-left: 5%;
-   
-    transition: color 0.3s ease;
+.forgot-password {
+color: #a0a0a0;
+background: none;
+border: none;
+font-size: 0.85rem;
+cursor: pointer;
+padding: 0;
+text-align: right;
+width: fit-content;
+align-self: flex-end;
+margin-top: -10px;
+transition: color 0.2s ease;
 }
 
 .forgot-password:hover {
-    color: #393E46;                 /* gri la hover */
+color: #4a90e2;
+}
+
+.submit-button {
+background: #4a90e2;
+color: white;
+border: none;
+padding: 16px;
+border-radius: 8px;
+font-size: 1rem;
+font-weight: 600;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 100%;
+margin-top: 10px;
+}
+
+.submit-button:hover {
+background: #3a7bc8;
+transform: translateY(-1px);
+}
+
+.auth-divider {
+display: flex;
+align-items: center;
+text-align: center;
+color: #555;
+margin: 10px 0;
+font-size: 0.9rem;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+content: '';
+flex: 1;
+border-bottom: 1px solid #2e2e2e;
+}
+
+.auth-divider span {
+padding: 0 12px;
+}
+
+.toggle-button {
+background: transparent;
+border: 1px solid #2e2e2e;
+color: #fff;
+padding: 14px;
+border-radius: 8px;
+font-size: 0.95rem;
+font-weight: 500;
+cursor: pointer;
+transition: all 0.3s ease;
+width: 100%;
+}
+
+.toggle-button:hover {
+background: #1e1e1e;
+border-color: #3e3e3e;
+}
+
+.auth-image {
+flex: 1;
+background: url('/lol1.jpg') center/cover;
+position: relative;
+min-width: 400px;
+display: flex;
+align-items: flex-end;
+}
+
+.image-overlay {
+position: relative;
+padding: 40px;
+background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+color: white;
+width: 100%;
+}
+
+.image-overlay h2 {
+font-size: 2rem;
+margin-bottom: 10px;
+font-weight: 600;
+}
+
+.image-overlay p {
+font-size: 1rem;
+opacity: 0.8;
+margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+.auth-box {
+  flex-direction: column;
+}
+
+.auth-image {
+  display: none;
+}
+
+.auth-content {
+  padding: 40px 30px;
+}
+
+.auth-header h1 {
+  font-size: 2rem;
+}
+}
+
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px #1e1e1e inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 5000s ease-in-out 0s;
 }

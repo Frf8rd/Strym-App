@@ -1,11 +1,11 @@
 -- Creare baza de date
-CREATE DATABASE IF NOT EXISTS strym_app_db;
-USE strym_app_db;
+CREATE DATABASE IF NOT EXISTS strym_db;
+USE strym_db;
 
 -- Tabelul users
 CREATE TABLE users (
     user_id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE NOT NULL,
+    username VARCHAR(255) NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,
     profile_picture VARCHAR(255) DEFAULT 'default.jpg',

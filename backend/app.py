@@ -13,12 +13,33 @@ app = Flask(__name__,
 # Load configuration
 app.config.from_object(Config)
 
-# Configure CORS
-CORS(app, 
-     supports_credentials=True, 
-     origins=["http://localhost:5173"],  
-     allow_headers=["Content-Type"],
-     methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"])
+# Create flask_session directory if it doesn't exist
+if not os.path.exists(app.config['SESSION_FILE_DIR']):
+    os.makedirs(app.config['SESSION_FILE_DIR'])
+
+# Debug information
+print(f"Session directory: {app.config['SESSION_FILE_DIR']}")
+print(f"Session directory exists: {os.path.exists(app.config['SESSION_FILE_DIR'])}")
+
+# Configure CORS based on environment
+if app.debug:  # Development mode
+    CORS(app, 
+         resources={r"/*": {
+             "origins": ["http://localhost:*", "http://127.0.0.1:*"],
+             "supports_credentials": True,
+             "allow_headers": ["Content-Type", "Authorization", "Accept"],
+             "expose_headers": ["Content-Type", "Authorization", "Accept"],
+             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+         }})
+else:  # Production mode
+    CORS(app, 
+         resources={r"/*": {
+             "origins": app.config['CORS_ORIGINS'],
+             "supports_credentials": True,
+             "allow_headers": app.config['CORS_ALLOW_HEADERS'],
+             "expose_headers": app.config['CORS_EXPOSE_HEADERS'],
+             "methods": app.config['CORS_METHODS']
+         }})
 
 # Initialize database
 init_db(app)
@@ -44,4 +65,4 @@ print(f"Upload folder: {app.config['UPLOAD_FOLDER']}")
 print(f"Upload folder exists: {os.path.exists(app.config['UPLOAD_FOLDER'])}")
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=5000, debug=True)

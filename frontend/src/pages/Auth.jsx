@@ -1,22 +1,19 @@
 import { useNavigate } from 'react-router-dom';
 import React, { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
 import '../styles/Auth.css';
-import axios from 'axios';
-
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
 
 const Auth = () => {
   const [formData, setFormData] = useState({
     username: '',
     email: '',
-    password: '',
-    firstName: '',
-    lastName: ''
+    password: ''
   });
   const [isLogin, setIsLogin] = useState(true);
   const [error, setError] = useState(null);
   
   const navigate = useNavigate();
+  const { login, register } = useAuth();
   
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,23 +24,15 @@ const Auth = () => {
     e.preventDefault();
     setError(null);
 
-    const url = isLogin
-      ? `${API_URL}/api/login`
-      : `${API_URL}/api/register`;
-
     try {
-      const response = await axios.post(url, formData, {
-        withCredentials: true // Important pentru sesiuni
-      });
-
-      if (response.data.user) {
-        // Salvăm informațiile utilizatorului în localStorage
-        localStorage.setItem('user', JSON.stringify(response.data.user));
-        alert(isLogin ? 'Autentificare reușită!' : 'Cont creat cu succes!');
-        navigate('/'); // Redirecționăm către pagina principală
+      if (isLogin) {
+        await login(formData.email, formData.password);
+      } else {
+        await register(formData);
       }
+      navigate('/');
     } catch (error) {
-      setError(error.response?.data?.error || 'A apărut o eroare. Vă rugăm încercați din nou.');
+      setError(error.error || 'A apărut o eroare. Vă rugăm încercați din nou.');
     }
   };
 
@@ -53,81 +42,100 @@ const Auth = () => {
     setFormData({
       username: '',
       email: '',
-      password: '',
-      firstName: '',
-      lastName: ''
+      password: ''
     });
+    navigate(isLogin ? '/register' : '/login');
   };
 
   return (
-    <div className="login">
-      <div className="login-container">
-        <div className="login-form">
-          <div className="logo"></div>
-          <h1 className="title">Hello</h1>
-          <form onSubmit={handleSubmit} className={isLogin ? "login-mode" : "register-mode"}>
+    <div className="auth-container">
+      <div className="auth-box">
+        <div className="auth-content">
+          <div className="auth-header">
+            <div className="auth-logo">
+              <svg viewBox="0 0 24 24" width="40" height="40">
+                <path fill="#4a90e2" d="M12,2C6.48,2,2,6.48,2,12s4.48,10,10,10s10-4.48,10-10S17.52,2,12,2z M12,20c-4.41,0-8-3.59-8-8s3.59-8,8-8s8,3.59,8,8S16.41,20,12,20z"/>
+                <path fill="#4a90e2" d="M12,6c-3.31,0-6,2.69-6,6s2.69,6,6,6s6-2.69,6-6S15.31,6,12,6z M12,16c-2.21,0-4-1.79-4-4s1.79-4,4-4s4,1.79,4,4S14.21,16,12,16z"/>
+              </svg>
+              <span>STRYM</span>
+            </div>
+            <h1>{isLogin ? 'Bine ai revenit!' : 'Creează cont'}</h1>
+            <p className="auth-subtitle">
+              {isLogin 
+                ? 'Autentifică-te pentru a continua' 
+                : 'Completează formularul pentru a crea un cont nou'}
+            </p>
+          </div>
+
+          <form onSubmit={handleSubmit} className="auth-form">
             {!isLogin && (
-              <>
+              <div className="form-group">
                 <input
+                  id="username"
                   type="text"
                   name="username"
                   value={formData.username}
-                  placeholder="Username"
-                  className="input-field"
+                  placeholder="Nume utilizator"
                   onChange={handleChange}
                   required
+                  className="auth-input"
                 />
-                <input
-                  type="text"
-                  name="firstName"
-                  value={formData.firstName}
-                  placeholder="Prenume"
-                  className="input-field"
-                  onChange={handleChange}
-                  required
-                />
-                <input
-                  type="text"
-                  name="lastName"
-                  value={formData.lastName}
-                  placeholder="Nume"
-                  className="input-field"
-                  onChange={handleChange}
-                  required
-                />
-              </>
+              </div>
             )}
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              placeholder="Email"
-              className="input-field"
-              onChange={handleChange}
-              required
-            />
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              placeholder="Password"
-              className="input-field"
-              onChange={handleChange}
-              required
-            />
-            {error && <p className="error">{error}</p>}
-            {isLogin && <button type="button" className="forgot-password">Ai uitat parola?</button>}
 
-            <button type="submit" className="login-button">
+            <div className="form-group">
+              <input
+                id="email"
+                type="email"
+                name="email"
+                value={formData.email}
+                placeholder="Adresa de email"
+                onChange={handleChange}
+                required
+                className="auth-input"
+              />
+            </div>
+
+            <div className="form-group">
+              <input
+                id="password"
+                type="password"
+                name="password"
+                value={formData.password}
+                placeholder="Parola"
+                onChange={handleChange}
+                required
+                className="auth-input"
+              />
+            </div>
+
+            {error && <div className="error-message">{error}</div>}
+
+            {isLogin && (
+              <button type="button" className="forgot-password">
+                Ai uitat parola?
+              </button>
+            )}
+
+            <button type="submit" className="submit-button">
               {isLogin ? 'Autentificare' : 'Înregistrare'}
             </button>
+
+            <div className="auth-divider">
+              <span>sau</span>
+            </div>
+
             <button type="button" onClick={toggleMode} className="toggle-button">
-              {isLogin ? 'Creează un cont' : 'Ai deja un cont? Autentifică-te'}
+              {isLogin ? 'Creează un cont nou' : 'Ai deja un cont? Autentifică-te'}
             </button>
           </form>
         </div>
-        <div className="image-block">
-          <img src="/lol1.jpg" alt="image" className="image" />
+
+        <div className="auth-image">
+          <div className="image-overlay">
+            <h2>Hello</h2>
+            
+          </div>
         </div>
       </div>
     </div>

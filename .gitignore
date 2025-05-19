@@ -1,7 +1,7 @@
-__pycache__/
+/backend/__pycache__/
 venv/
-
-# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+/backend/routes/__pycache__/
+/backend/models/__pycache__/
 
 # dependencies
 /frontend/node_modules
@@ -24,3 +24,9 @@ venv/
 /frontend/npm-debug.log*
 /frontend/yarn-debug.log*
 /frontend/yarn-error.log*
+
+# Flask session files
+/backend/flask_session/
+
+# Environment variables
+.env
