@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { FiX, FiMessageCircle, FiHeart } from 'react-icons/fi';
+import { useLanguage } from '../context/LanguageContext';
 import '../styles/CommentModal.css';
 
 const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
@@ -9,6 +10,7 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [commentToDelete, setCommentToDelete] = useState(null);
+    const { language, translations } = useLanguage();
 
     useEffect(() => {
         if (isOpen && post) {
@@ -23,7 +25,7 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
             setLoading(false);
         } catch (error) {
             console.error('Error fetching comments:', error);
-            setError('Failed to load comments');
+            setError(translations[language].loading);
             setLoading(false);
         }
     };
@@ -42,7 +44,7 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
             setError(null);
         } catch (error) {
             console.error('Error posting comment:', error);
-            setError('Failed to post comment');
+            setError(translations[language].loading);
         }
     };
 
@@ -53,7 +55,7 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
             setCommentToDelete(null);
         } catch (error) {
             console.error('Error deleting comment:', error);
-            setError('Failed to delete comment');
+            setError(translations[language].loading);
         }
     };
 
@@ -63,7 +65,7 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>Comments</h2>
+                    <h2>{translations[language].comments}</h2>
                     <button className="close-button" onClick={onClose}>
                         <FiX />
                     </button>
@@ -124,11 +126,11 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
                     <textarea
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
-                        placeholder="Write a comment..."
+                        placeholder={translations[language].writeSomething}
                         maxLength={280}
                     />
                     <button type="submit" disabled={!newComment.trim()}>
-                        Comment
+                        {translations[language].comment}
                     </button>
                 </form>
 
@@ -136,40 +138,42 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
 
                 <div className="comments-list">
                     {loading ? (
-                        <div className="loading">Loading comments...</div>
+                        <div className="loading">{translations[language].loading}</div>
                     ) : comments.length === 0 ? (
-                        <div className="no-comments">No comments yet</div>
+                        <div className="no-comments">{translations[language].noResults}</div>
                     ) : (
                         comments.map(comment => (
-                            <div key={comment.comment_id} className="comment">
+                            <div key={comment.comment_id} className="comment-card">
                                 <div className="comment-header">
-                                    <img
-                                        src={comment.user?.profilePicture ? 
-                                            `http://localhost:5000/uploads/${comment.user.profilePicture}` : 
-                                            `https://ui-avatars.com/api/?name=${comment.user?.username || 'User'}`}
-                                        alt={comment.user?.username || 'User'}
-                                        className="avatar"
-                                        onClick={() => onUserProfileClick && onUserProfileClick(comment.user_id)}
-                                        style={{ cursor: 'pointer' }}
-                                    />
-                                    <div className="comment-details">
-                                        <span 
-                                            className="username"
+                                    <div className="user-info">
+                                        <img
+                                            src={comment.user?.profilePicture ? 
+                                                `http://localhost:5000/uploads/${comment.user.profilePicture}` : 
+                                                `https://ui-avatars.com/api/?name=${comment.user?.username || 'User'}`}
+                                            alt={comment.user?.username || 'User'}
+                                            className="avatar"
                                             onClick={() => onUserProfileClick && onUserProfileClick(comment.user_id)}
                                             style={{ cursor: 'pointer' }}
-                                        >
-                                            {comment.user?.username || 'User'}
-                                        </span>
-                                        <span className="comment-time">
-                                            {new Date(comment.created_at).toLocaleDateString()}
-                                        </span>
+                                        />
+                                        <div className="user-details">
+                                            <span 
+                                                className="username"
+                                                onClick={() => onUserProfileClick && onUserProfileClick(comment.user_id)}
+                                                style={{ cursor: 'pointer' }}
+                                            >
+                                                {comment.user?.username || 'User'}
+                                            </span>
+                                            <span className="comment-time">
+                                                {new Date(comment.created_at).toLocaleDateString()}
+                                            </span>
+                                        </div>
                                     </div>
-                                    {user && (user.id === comment.user_id || user.role === 'admin') && (
+                                    {(user && (user.id === comment.user_id || user.role === 'admin')) && (
                                         <button
                                             className="delete-comment"
                                             onClick={() => setCommentToDelete(comment.comment_id)}
                                         >
-                                            Delete
+                                            {translations[language].delete}
                                         </button>
                                     )}
                                 </div>
@@ -179,23 +183,24 @@ const CommentModal = ({ isOpen, onClose, post, user, onUserProfileClick }) => {
                     )}
                 </div>
             </div>
+
             {commentToDelete && (
                 <div className="modal-overlay" style={{ zIndex: 1100 }}>
                     <div className="delete-confirm-modal">
-                        <h3>Confirm Delete</h3>
-                        <p>Are you sure you want to delete this comment? This action cannot be undone.</p>
+                        <h3>{translations[language].confirmDelete}</h3>
+                        <p>{translations[language].deleteConfirmation}</p>
                         <div className="modal-actions">
                             <button 
                                 className="cancel-button"
                                 onClick={() => setCommentToDelete(null)}
                             >
-                                Cancel
+                                {translations[language].cancelDelete}
                             </button>
                             <button 
                                 className="confirm-delete-button"
                                 onClick={() => handleDeleteComment(commentToDelete)}
                             >
-                                Delete
+                                {translations[language].confirmDeleteButton}
                             </button>
                         </div>
                     </div>

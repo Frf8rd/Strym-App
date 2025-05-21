@@ -103,8 +103,9 @@ def update_user(user_id):
         
         # Update profile picture if provided
         if 'profilePicture' in data and data['profilePicture'] != user.profile_picture:
-            # Delete old profile picture if it exists
-            delete_media_file(user.profile_picture)
+            # Delete old profile picture if it exists and is not default.jpg
+            if user.profile_picture and user.profile_picture != 'default.jpg':
+                delete_media_file(user.profile_picture)
             user.profile_picture = data['profilePicture']
         
         db.session.commit()

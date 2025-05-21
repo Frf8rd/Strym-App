@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { useNavigate } from 'react-router-dom';
-import { FiArrowLeft, FiUsers, FiSettings, FiAlertCircle, FiFileText, FiSearch, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiUsers, FiSettings, FiAlertCircle, FiFileText, FiSearch, FiTrash2, FiDownload } from 'react-icons/fi';
 import axios from 'axios';
 import '../styles/AdminPanel.css';
 
 const AdminPanel = ({ onBack }) => {
     const { user: currentUser } = useAuth();
+    const { language, translations } = useLanguage();
     const navigate = useNavigate();
     const [activeTab, setActiveTab] = useState('users');
     const [users, setUsers] = useState([]);
@@ -56,6 +58,41 @@ const AdminPanel = ({ onBack }) => {
         }
     };
 
+    const handleExportData = async () => {
+        try {
+            const response = await axios.get('/api/admin/export-data');
+            const data = response.data.data;
+            
+            // Convert data to CSV format
+            const headers = ['ID', 'Username', 'Email', 'Role', 'Profile Picture', 'Created At', 'Updated At'];
+            const csvContent = [
+                headers.join(','),
+                ...data.map(user => [
+                    user.id,
+                    `"${user.username}"`,
+                    `"${user.email}"`,
+                    user.role,
+                    user.profilePicture,
+                    user.createdAt,
+                    user.updatedAt
+                ].join(','))
+            ].join('\n');
+
+            // Create and download the file
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `user_data_${new Date().toISOString().split('T')[0]}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error exporting data:', error);
+            setError('Failed to export data');
+        }
+    };
+
     const filteredUsers = users.filter(user => 
         user.username.toLowerCase().includes(searchQuery.toLowerCase()) ||
         user.email.toLowerCase().includes(searchQuery.toLowerCase())
@@ -75,7 +112,7 @@ const AdminPanel = ({ onBack }) => {
                 <button className="back-button" onClick={onBack}>
                     <FiArrowLeft />
                 </button>
-                <h2>Admin Panel</h2>
+                <h2>{translations[language].adminPanel}</h2>
             </div>
 
             <div className="admin-tabs">
@@ -83,19 +120,19 @@ const AdminPanel = ({ onBack }) => {
                     className={`admin-tab ${activeTab === 'users' ? 'active' : ''}`}
                     onClick={() => setActiveTab('users')}
                 >
-                    <FiUsers /> Users
+                    <FiUsers /> {translations[language].users}
                 </button>
                 <button 
                     className={`admin-tab ${activeTab === 'settings' ? 'active' : ''}`}
                     onClick={() => setActiveTab('settings')}
                 >
-                    <FiSettings /> Settings
+                    <FiSettings /> {translations[language].settings}
                 </button>
                 <button 
                     className={`admin-tab ${activeTab === 'reports' ? 'active' : ''}`}
                     onClick={() => setActiveTab('reports')}
                 >
-                    <FiFileText /> Reports
+                    <FiFileText /> {translations[language].reports}
                 </button>
             </div>
 
@@ -107,13 +144,19 @@ const AdminPanel = ({ onBack }) => {
                                 <FiSearch className="search-icon" />
                                 <input
                                     type="text"
-                                    placeholder="Search users by username or email..."
+                                    placeholder={translations[language].searchUsers}
                                     value={searchQuery}
                                     onChange={(e) => setSearchQuery(e.target.value)}
                                 />
                             </div>
+                            <button 
+                                className="export-button"
+                                onClick={handleExportData}
+                            >
+                                <FiDownload /> {translations[language].exportData}
+                            </button>
                         </div>
-                        <h3>User Management</h3>
+                        <h3>{translations[language].userManagement}</h3>
                         <div className="users-list">
                             {filteredUsers.map(user => (
                                 <div key={user.id} className="user-item">
@@ -140,8 +183,8 @@ const AdminPanel = ({ onBack }) => {
                                             onChange={(e) => handleUserRoleChange(user.id, e.target.value)}
                                             className="role-select"
                                         >
-                                            <option value="user">User</option>
-                                            <option value="admin">Admin</option>
+                                            <option value="user">{translations[language].users}</option>
+                                            <option value="admin">{translations[language].adminPanel}</option>
                                         </select>
                                         {user.id !== currentUser.id && (
                                             <button 
@@ -160,15 +203,15 @@ const AdminPanel = ({ onBack }) => {
 
                 {activeTab === 'settings' && (
                     <div className="settings-section">
-                        <h3>Admin Settings</h3>
-                        <p>Settings panel coming soon...</p>
+                        <h3>{translations[language].settings}</h3>
+                        <p>{translations[language].settingsComingSoon}</p>
                     </div>
                 )}
 
                 {activeTab === 'reports' && (
                     <div className="reports-section">
-                        <h3>Reports</h3>
-                        <p>Reports panel coming soon...</p>
+                        <h3>{translations[language].reports}</h3>
+                        <p>{translations[language].reportsComingSoon}</p>
                     </div>
                 )}
             </div>
@@ -176,20 +219,20 @@ const AdminPanel = ({ onBack }) => {
             {showDeleteConfirm && (
                 <div className="modal-overlay">
                     <div className="delete-confirm-modal">
-                        <h3>Confirm Delete</h3>
-                        <p>Are you sure you want to delete this user? This action cannot be undone.</p>
+                        <h3>{translations[language].confirmDelete}</h3>
+                        <p>{translations[language].deleteConfirmation}</p>
                         <div className="modal-actions">
                             <button 
                                 className="cancel-button"
                                 onClick={() => setShowDeleteConfirm(null)}
                             >
-                                Cancel
+                                {translations[language].cancel}
                             </button>
                             <button 
                                 className="confirm-delete-button"
                                 onClick={() => handleDeleteUser(showDeleteConfirm)}
                             >
-                                Delete
+                                {translations[language].delete}
                             </button>
                         </div>
                     </div>

@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FiX, FiImage } from 'react-icons/fi';
+import { useLanguage } from '../context/LanguageContext';
 import '../styles/EditProfileModal.css';
 
 const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
+    const { language, translations } = useLanguage();
     const [formData, setFormData] = useState({
         username: user.username || '',
         bio: user.bio || '',
@@ -76,7 +78,7 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>Edit Profile</h2>
+                    <h2>{translations[language].editProfile}</h2>
                     <button className="close-button" onClick={onClose}>
                         <FiX />
                     </button>
@@ -99,12 +101,12 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
                                 style={{ display: 'none' }}
                             />
                             <FiImage className="upload-icon" />
-                            <span>Change Photo</span>
+                            <span>{translations[language].changePhoto}</span>
                         </label>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="username">Username</label>
+                        <label htmlFor="username">{translations[language].username}</label>
                         <input
                             type="text"
                             id="username"
@@ -116,14 +118,14 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="bio">Bio</label>
+                        <label htmlFor="bio">{translations[language].bio}</label>
                         <textarea
                             id="bio"
                             name="bio"
                             value={formData.bio}
                             onChange={handleInputChange}
                             maxLength={160}
-                            placeholder="Tell us about yourself..."
+                            placeholder={translations[language].tellUsAboutYourself}
                         />
                     </div>
 
@@ -136,14 +138,14 @@ const EditProfileModal = ({ isOpen, onClose, user, onProfileUpdate }) => {
                             onClick={onClose}
                             disabled={loading}
                         >
-                            Cancel
+                            {translations[language].cancel}
                         </button>
                         <button
                             type="submit"
                             className="save-button"
                             disabled={loading}
                         >
-                            {loading ? 'Saving...' : 'Save Changes'}
+                            {loading ? translations[language].saving : translations[language].saveChanges}
                         </button>
                     </div>
                 </form>

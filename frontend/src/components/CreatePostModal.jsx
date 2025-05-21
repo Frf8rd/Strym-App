@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { FiImage, FiX } from 'react-icons/fi';
+import { useLanguage } from '../context/LanguageContext';
 import '../styles/CreatePostModal.css';
 
-const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => {
+const CreatePostModal = ({ isOpen, onClose, onPost, newPost, setNewPost }) => {
     const [uploading, setUploading] = useState(false);
     const [uploadError, setUploadError] = useState(null);
+    const { language, translations } = useLanguage();
 
     if (!isOpen) return null;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        onSubmit(e);
+        onPost(e);
         onClose();
     };
 
@@ -41,7 +43,10 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => 
             });
         } catch (error) {
             console.error('Error uploading file:', error);
-            setUploadError('Failed to upload file. Please try again.');
+            setUploadError(file.type.startsWith('image/') ? 
+                translations[language].imageUploadError : 
+                translations[language].videoUploadError
+            );
         } finally {
             setUploading(false);
         }
@@ -56,7 +61,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => 
         <div className="modal-overlay" onClick={onClose}>
             <div className="modal-content" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
-                    <h2>Create Post</h2>
+                    <h2>{translations[language].createPost}</h2>
                     <button className="close-button" onClick={onClose}>
                         <FiX />
                     </button>
@@ -64,12 +69,11 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => 
                 <form onSubmit={handleSubmit}>
                     <div className="post-input-container">
                         <textarea
-                            placeholder="What's happening?"
+                            placeholder={translations[language].writeSomething}
                             value={newPost.content}
                             onChange={(e) => setNewPost({ ...newPost, content: e.target.value })}
                             maxLength={280}
                         />
-                        
                     </div>
                     
                     <div className="media-options">
@@ -81,8 +85,9 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => 
                                 style={{ display: 'none' }}
                             />
                             <FiImage className="upload-icon" />
+                            <span>{translations[language].addImage}</span>
                         </label>
-                        {uploading && <span className="uploading-text">Uploading...</span>}
+                        {uploading && <span className="uploading-text">{translations[language].loading}</span>}
                         {uploadError && <span className="upload-error">{uploadError}</span>}
                         {newPost.media_url && (
                             <div className="preview-container">
@@ -108,7 +113,7 @@ const CreatePostModal = ({ isOpen, onClose, onSubmit, newPost, setNewPost }) => 
                             disabled={!newPost.content?.trim() || remainingChars < 0}
                             className="submit-post"
                         >
-                            Post
+                            {translations[language].createPostButton}
                         </button>
                     </div>
                 </form>

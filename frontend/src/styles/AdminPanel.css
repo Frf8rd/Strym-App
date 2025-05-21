@@ -84,7 +84,11 @@
 }
 
 .search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    gap: 15px;
 }
 
 .search-box {
@@ -130,6 +134,29 @@
 
 .search-box input:focus + .search-icon {
     color: #1d9bf0;
+}
+
+.export-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 16px;
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.export-button:hover {
+    background-color: #1a8cd8;
+}
+
+.export-button svg {
+    font-size: 16px;
 }
 
 .users-section h3,

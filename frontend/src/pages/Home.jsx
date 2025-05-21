@@ -12,6 +12,7 @@ import TrendingUsers from '../components/TrendingUsers';
 import FollowingUsers from '../components/FollowingUsers';
 import SearchResults from '../components/SearchResults';
 import '../styles/Home.css';
+import { useLanguage } from '../context/LanguageContext';
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -19,6 +20,7 @@ axios.defaults.baseURL = 'http://localhost:5000';
 
 const Home = () => {
     const { user, isAuthenticated, logout } = useAuth();
+    const { language, translations } = useLanguage();
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [newPost, setNewPost] = useState({
@@ -299,7 +301,7 @@ const Home = () => {
                             fetchPosts();
                         }}
                     >
-                        <FiHome className="nav-icon" /> Home
+                        <FiHome className="nav-icon" /> {translations[language].home}
                     </button>
                     <button 
                         className={`nav-item ${activeTab === 'profile' ? 'active' : ''}`}
@@ -310,7 +312,7 @@ const Home = () => {
                             setSelectedUser(user);
                         }}
                     >
-                        <FiUser className="nav-icon" /> Profile
+                        <FiUser className="nav-icon" /> {translations[language].profile}
                     </button>
                     <button 
                         className={`nav-item ${activeTab === 'settings' ? 'active' : ''}`}
@@ -320,23 +322,23 @@ const Home = () => {
                             setShowSettings(true);
                         }}
                     >
-                        <FiSettings className="nav-icon" /> Settings
+                        <FiSettings className="nav-icon" /> {translations[language].settings}
                     </button>
                     <button className="nav-item">
-                        <FiBell className="nav-icon" /> Notifications
+                        <FiBell className="nav-icon" /> {translations[language].notifications}
                     </button>
                     <button className="nav-item">
-                        <FiMail className="nav-icon" /> Messages
+                        <FiMail className="nav-icon" /> {translations[language].messages}
                     </button>
                     <button className="nav-item">
-                        <FiBookmark className="nav-icon" /> Bookmarks
+                        <FiBookmark className="nav-icon" /> {translations[language].bookmarks}
                     </button>
                     <button className="nav-item">
-                        <FiList className="nav-icon" /> Lists
+                        <FiList className="nav-icon" /> {translations[language].lists}
                     </button>
                 </nav>
                 <button className="post-button" onClick={() => setIsModalOpen(true)}>
-                    <RiQuillPenLine /> Post
+                    <RiQuillPenLine /> {translations[language].post}
                 </button>
                 <div className="user-profile" onClick={() => setShowProfileMenu(!showProfileMenu)}>
                     <img 
@@ -358,7 +360,7 @@ const Home = () => {
                                         setShowProfileMenu(false);
                                     }}
                                 >
-                                    <FiSettings /> Admin Panel
+                                    <FiSettings /> {translations[language].adminPanel}
                                 </button>
                             )}
                             <button 
@@ -368,7 +370,7 @@ const Home = () => {
                                     navigate('/login');
                                 }}
                             >
-                                <FiLogOut /> Logout
+                                <FiLogOut /> {translations[language].logout}
                             </button>
                         </div>
                     )}
@@ -431,13 +433,13 @@ const Home = () => {
                                         className={`feed-type-btn ${feedType === 'forYou' ? 'active' : ''}`}
                                         onClick={() => setFeedType('forYou')}
                                     >
-                                        For You
+                                        {translations[language].forYou}
                                     </button>
                                     <button 
                                         className={`feed-type-btn ${feedType === 'following' ? 'active' : ''}`}
                                         onClick={() => setFeedType('following')}
                                     >
-                                        Following
+                                        {translations[language].following}
                                     </button>
                                 </div>
 
@@ -486,7 +488,7 @@ const Home = () => {
                                                                             handleMenuClose();
                                                                         }}
                                                                     >
-                                                                        <FiEdit2 /> Edit
+                                                                        <FiEdit2 /> {translations[language].edit}
                                                                     </div>
                                                                     <div 
                                                                         className="post-menu-option delete"
@@ -495,7 +497,7 @@ const Home = () => {
                                                                             handleMenuClose();
                                                                         }}
                                                                     >
-                                                                        <FiTrash2 /> Delete
+                                                                        <FiTrash2 /> {translations[language].delete}
                                                                     </div>
                                                                 </>
                                                             ) : null}
@@ -506,7 +508,7 @@ const Home = () => {
                                                                         handleMenuClose();
                                                                     }}
                                                                 >
-                                                                    <FiHeart /> Like
+                                                                    <FiHeart /> {translations[language].like}
                                                                 </div>
                                                         </div>
                                                     )}
@@ -529,7 +531,7 @@ const Home = () => {
                                                                 style={{ display: 'none' }}
                                                             />
                                                             <FiImage className="upload-icon" />
-                                                            <span>Upload Media</span>
+                                                            <span>{translations[language].addImage}</span>
                                                         </label>
                                                         {editingPost.media_url && (
                                                             <div className="preview-container">
@@ -553,13 +555,13 @@ const Home = () => {
                                                             onClick={() => handleUpdatePost(post.post_id)}
                                                             className="save-edit"
                                                         >
-                                                            Save
+                                                            {translations[language].save}
                                                         </button>
                                                         <button 
                                                             onClick={cancelEditing}
                                                             className="cancel-edit"
                                                         >
-                                                            Cancel
+                                                            {translations[language].cancel}
                                                         </button>
                                                     </div>
                                                 </div>
@@ -597,14 +599,14 @@ const Home = () => {
                                                             }}
                                                         >
                                                             <FiMessageCircle className="interaction-icon" />
-                                                            <span>Comment</span>
+                                                            <span>{translations[language].comment}</span>
                                                         </button>
                                                         <button 
                                                             className={`interaction-button ${likedPosts.has(post.post_id) ? 'liked' : ''}`}
                                                             onClick={() => handleLike(post.post_id)}
                                                         >
                                                             <FiHeart className="interaction-icon" />
-                                                            <span>Like</span>
+                                                            <span>{translations[language].like}</span>
                                                         </button>
                                                     </div>
                                                 </>
@@ -621,7 +623,7 @@ const Home = () => {
                         <div className="search-box">
                             <input 
                                 type="text" 
-                                placeholder="Search" 
+                                placeholder={translations[language].searchPlaceholder}
                                 value={searchQuery}
                                 onChange={handleSearchChange}
                             />
@@ -634,7 +636,7 @@ const Home = () => {
             <CreatePostModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
-                onSubmit={handlePostSubmit}
+                onPost={handlePostSubmit}
                 newPost={newPost}
                 setNewPost={setNewPost}
             />

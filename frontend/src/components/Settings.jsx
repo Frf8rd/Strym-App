@@ -1,40 +1,46 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import { FiArrowLeft, FiUser, FiBell, FiGlobe, FiEye } from 'react-icons/fi';
 import '../styles/Settings.css';
 
 const Settings = ({ onBack }) => {
     const { user } = useAuth();
+    const { language, changeLanguage, translations } = useLanguage();
     const [activeSection, setActiveSection] = useState('account');
+
+    const handleLanguageChange = (e) => {
+        changeLanguage(e.target.value);
+    };
 
     const renderSection = () => {
         switch (activeSection) {
             case 'account':
                 return (
                     <div className="settings-section">
-                        <h3>Account information</h3>
+                        <h3>{translations[language].accountInfo}</h3>
                         <div className="settings-group">
-                            <label>Username</label>
+                            <label>{translations[language].username}</label>
                             <input type="text" defaultValue={user?.username} />
-                            <p className="input-hint">This is your unique identifier</p>
+                            <p className="input-hint">{translations[language].usernameHint}</p>
                         </div>
                         <div className="settings-group">
-                            <label>Email</label>
+                            <label>{translations[language].email}</label>
                             <input type="email" defaultValue={user?.email} />
-                            <p className="input-hint">Used for account recovery and notifications</p>
+                            <p className="input-hint">{translations[language].emailHint}</p>
                         </div>
                     </div>
                 );
             case 'notifications':
                 return (
                     <div className="settings-section">
-                        <h3>Notifications</h3>
+                        <h3>{translations[language].notifications}</h3>
                         <div className="settings-group">
-                            <h4>Email notifications</h4>
+                            <h4>{translations[language].emailNotifications}</h4>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>New followers</label>
-                                    <p>Get notified when someone follows you</p>
+                                    <label>{translations[language].newFollowers}</label>
+                                    <p>{translations[language].newFollowersHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" defaultChecked />
@@ -43,8 +49,8 @@ const Settings = ({ onBack }) => {
                             </div>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Mentions</label>
-                                    <p>Get notified when someone mentions you</p>
+                                    <label>{translations[language].mentions}</label>
+                                    <p>{translations[language].mentionsHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" defaultChecked />
@@ -53,8 +59,8 @@ const Settings = ({ onBack }) => {
                             </div>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Direct messages</label>
-                                    <p>Get notified when you receive a message</p>
+                                    <label>{translations[language].directMessages}</label>
+                                    <p>{translations[language].directMessagesHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" defaultChecked />
@@ -63,11 +69,11 @@ const Settings = ({ onBack }) => {
                             </div>
                         </div>
                         <div className="settings-group">
-                            <h4>Push notifications</h4>
+                            <h4>{translations[language].pushNotifications}</h4>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Activity alerts</label>
-                                    <p>Receive push notifications for account activity</p>
+                                    <label>{translations[language].activityAlerts}</label>
+                                    <p>{translations[language].activityAlertsHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" defaultChecked />
@@ -80,13 +86,13 @@ const Settings = ({ onBack }) => {
             case 'accessibility':
                 return (
                     <div className="settings-section">
-                        <h3>Accessibility, display and languages</h3>
+                        <h3>{translations[language].accessibilityDisplay}</h3>
                         <div className="settings-group">
-                            <h4>Display</h4>
+                            <h4>{translations[language].display}</h4>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Dark mode</label>
-                                    <p>Switch between light and dark themes</p>
+                                    <label>{translations[language].darkMode}</label>
+                                    <p>{translations[language].darkModeHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" defaultChecked />
@@ -95,22 +101,22 @@ const Settings = ({ onBack }) => {
                             </div>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Font size</label>
-                                    <p>Adjust the size of text throughout the app</p>
+                                    <label>{translations[language].fontSize}</label>
+                                    <p>{translations[language].fontSizeHint}</p>
                                 </div>
                                 <select defaultValue="medium">
-                                    <option value="small">Small</option>
-                                    <option value="medium">Medium</option>
-                                    <option value="large">Large</option>
+                                    <option value="small">{translations[language].small}</option>
+                                    <option value="medium">{translations[language].medium}</option>
+                                    <option value="large">{translations[language].large}</option>
                                 </select>
                             </div>
                         </div>
                         <div className="settings-group">
-                            <h4>Accessibility</h4>
+                            <h4>{translations[language].accessibility}</h4>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>High contrast mode</label>
-                                    <p>Increase contrast for better visibility</p>
+                                    <label>{translations[language].highContrast}</label>
+                                    <p>{translations[language].highContrastHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" />
@@ -119,8 +125,8 @@ const Settings = ({ onBack }) => {
                             </div>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Reduce motion</label>
-                                    <p>Minimize animations throughout the app</p>
+                                    <label>{translations[language].reduceMotion}</label>
+                                    <p>{translations[language].reduceMotionHint}</p>
                                 </div>
                                 <label className="toggle-switch">
                                     <input type="checkbox" />
@@ -129,18 +135,15 @@ const Settings = ({ onBack }) => {
                             </div>
                         </div>
                         <div className="settings-group">
-                            <h4>Language</h4>
+                            <h4>{translations[language].language}</h4>
                             <div className="settings-option">
                                 <div className="option-info">
-                                    <label>Display language</label>
-                                    <p>Choose your preferred language</p>
+                                    <label>{translations[language].displayLanguage}</label>
+                                    <p>{translations[language].chooseLanguage}</p>
                                 </div>
-                                <select defaultValue="english">
+                                <select value={language} onChange={handleLanguageChange}>
                                     <option value="english">English</option>
                                     <option value="romanian">Romanian</option>
-                                    <option value="spanish">Spanish</option>
-                                    <option value="french">French</option>
-                                    <option value="german">German</option>
                                 </select>
                             </div>
                         </div>
@@ -157,31 +160,31 @@ const Settings = ({ onBack }) => {
                 <button className="back-button" onClick={onBack}>
                     <FiArrowLeft />
                 </button>
-                <h2>Settings</h2>
+                <h2>{translations[language].settings}</h2>
             </div>
 
             <div className="settings-layout">
                 <div className="settings-sidebar">
                     <div className="sidebar-header">
-                        <h3>Settings</h3>
+                        <h3>{translations[language].settings}</h3>
                     </div>
                     <button 
                         className={`settings-nav-item ${activeSection === 'account' ? 'active' : ''}`}
                         onClick={() => setActiveSection('account')}
                     >
-                        <FiUser className="nav-icon" /> Account
+                        <FiUser className="nav-icon" /> {translations[language].account}
                     </button>
                     <button 
                         className={`settings-nav-item ${activeSection === 'notifications' ? 'active' : ''}`}
                         onClick={() => setActiveSection('notifications')}
                     >
-                        <FiBell className="nav-icon" /> Notifications
+                        <FiBell className="nav-icon" /> {translations[language].notifications}
                     </button>
                     <button 
                         className={`settings-nav-item ${activeSection === 'accessibility' ? 'active' : ''}`}
                         onClick={() => setActiveSection('accessibility')}
                     >
-                        <FiEye className="nav-icon" /> Accessibility
+                        <FiEye className="nav-icon" /> {translations[language].accessibility}
                     </button>
                 </div>
 

@@ -1,5 +1,8 @@
 from flask import Blueprint, jsonify, session, request
 from models.user import User
+from models.follower import Follower
+from models.comment import Comment
+from models.like import Like
 from database import db
 from functools import wraps
 import os
@@ -88,7 +91,34 @@ def delete_user(user_id):
                 os.remove(os.path.join(Config.UPLOAD_FOLDER, user.profile_picture))
             except:
                 pass  # Ignore if file doesn't exist
+        
+        # Delete all follower relationships where this user is either the follower or followed
+        Follower.query.filter(
+            (Follower.follower_id == user_id) | (Follower.followed_id == user_id)
+        ).delete()
+        
+        # Delete all posts and their associated data
+        for post in user.posts:
+            # Delete comments for this post
+            Comment.query.filter_by(post_id=post.post_id).delete()
+            # Delete likes for this post
+            Like.query.filter_by(post_id=post.post_id).delete()
+            # Delete the post's media file if it exists
+            if post.media_url:
+                try:
+                    os.remove(os.path.join(Config.UPLOAD_FOLDER, post.media_url))
+                except:
+                    pass
+            # Delete the post
+            db.session.delete(post)
+        
+        # Delete all likes by this user
+        Like.query.filter_by(user_id=user_id).delete()
+        
+        # Delete all comments by this user
+        Comment.query.filter_by(user_id=user_id).delete()
                 
+        # Finally delete the user
         db.session.delete(user)
         db.session.commit()
         
@@ -96,4 +126,26 @@ def delete_user(user_id):
         
     except Exception as e:
         db.session.rollback()
+        return jsonify({'error': str(e)}), 500
+
+@admin_bp.route('/api/admin/export-data', methods=['GET'])
+@admin_required
+def export_data():
+    try:
+        users = User.query.all()
+        data = [{
+            'id': user.user_id,
+            'username': user.username,
+            'email': user.email,
+            'role': user.role,
+            'profilePicture': user.profile_picture,
+            'createdAt': user.created_at.isoformat() if user.created_at else None,
+            'updatedAt': user.updated_at.isoformat() if user.updated_at else None
+        } for user in users]
+        
+        return jsonify({
+            'message': 'Data exported successfully',
+            'data': data
+        })
+    except Exception as e:
         return jsonify({'error': str(e)}), 500 

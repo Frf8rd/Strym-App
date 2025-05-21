@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../context/LanguageContext';
 import EditProfileModal from './EditProfileModal';
-import { FiArrowLeft, FiMessageCircle, FiHeart, FiMoreHorizontal, FiEdit2, FiTrash2 } from 'react-icons/fi';
+import { FiArrowLeft, FiMessageCircle, FiHeart, FiMoreHorizontal, FiEdit2, FiTrash2, FiImage } from 'react-icons/fi';
 import '../styles/UserProfile.css';
 
 const UserProfile = ({ user, onBack }) => {
     const { user: currentUser } = useAuth();
+    const { language, translations } = useLanguage();
     const [isFollowing, setIsFollowing] = useState(user.isFollowing || false);
     const [followersCount, setFollowersCount] = useState(user.followersCount || 0);
+    const [followingCount, setFollowingCount] = useState(user.followingCount || 0);
     const [isLoading, setIsLoading] = useState(false);
     const [showEditModal, setShowEditModal] = useState(false);
     const [profileData, setProfileData] = useState(user);
@@ -18,6 +21,21 @@ const UserProfile = ({ user, onBack }) => {
     const [editingPost, setEditingPost] = useState(null);
     const [likedPosts, setLikedPosts] = useState(new Set());
     const [postToDelete, setPostToDelete] = useState(null);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/users/${user.id}`);
+                setProfileData(response.data);
+                setFollowersCount(response.data.followersCount);
+                setFollowingCount(response.data.followingCount);
+            } catch (error) {
+                console.error('Error fetching user data:', error);
+            }
+        };
+
+        fetchUserData();
+    }, [user.id]);
 
     useEffect(() => {
         const fetchUserPosts = async () => {
@@ -119,6 +137,32 @@ const UserProfile = ({ user, onBack }) => {
         }
     };
 
+    const handleFileUpload = async (e, isEditing = false) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const formData = new FormData();
+        formData.append('file', file);
+
+        try {
+            const response = await axios.post('/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data'
+                }
+            });
+            
+            const fullUrl = `http://localhost:5000/uploads/${response.data.filename}`;
+            if (isEditing) {
+                setEditingPost({
+                    ...editingPost,
+                    media_url: fullUrl
+                });
+            }
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
+    };
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (activeMenu && !event.target.closest('.post-menu')) {
@@ -140,7 +184,7 @@ const UserProfile = ({ user, onBack }) => {
                 </button>
                 <div className="profile-top-info">
                     <h2 className="profile-name">{user.username}</h2>
-                    <span className="post-count">{user.postsCount} posts</span>
+                    <span className="post-count">{user.postsCount} {translations[language].posts}</span>
                 </div>
             </div>
 
@@ -161,7 +205,7 @@ const UserProfile = ({ user, onBack }) => {
                             className="follow-button"
                             onClick={() => setShowEditModal(true)}
                         >
-                            Edit Profile
+                            {translations[language].editProfile}
                         </button>
                     ) : (
                         <button 
@@ -169,7 +213,7 @@ const UserProfile = ({ user, onBack }) => {
                             onClick={handleFollow}
                             disabled={isLoading}
                         >
-                            {isFollowing ? 'Following' : 'Follow'}
+                            {isFollowing ? translations[language].following : translations[language].follow}
                         </button>
                     )}
                 </div>
@@ -183,26 +227,26 @@ const UserProfile = ({ user, onBack }) => {
                 
                 <div className="profile-stats">
                     <div className="stat-item">
-                        <span className="stat-value">{user.followingCount}</span>
-                        <span className="stat-label">Following</span>
+                        <span className="stat-value">{followingCount}</span>
+                        <span className="stat-label">{translations[language].following}</span>
                     </div>
                     <div className="stat-item">
                         <span className="stat-value">{followersCount}</span>
-                        <span className="stat-label">Followers</span>
+                        <span className="stat-label">{translations[language].followers}</span>
                     </div>
                 </div>
             </div>
 
             <div className="feed-type-selector">
-                <button className="feed-type-btn active">Posts</button>
-                <button className="feed-type-btn">Replies</button>
-                <button className="feed-type-btn">Media</button>
-                <button className="feed-type-btn">Likes</button>
+                <button className="feed-type-btn active">{translations[language].posts}</button>
+                <button className="feed-type-btn">{translations[language].replies}</button>
+                <button className="feed-type-btn">{translations[language].media}</button>
+                <button className="feed-type-btn">{translations[language].likes}</button>
             </div>
 
             <div className="posts-feed">
                 {loading ? (
-                    <div className="loading">Loading posts...</div>
+                    <div className="loading">{translations[language].loadingPosts}</div>
                 ) : (
                     posts.map((post) => (
                         <div key={post.post_id} className="post-card">
@@ -240,7 +284,7 @@ const UserProfile = ({ user, onBack }) => {
                                                             handleMenuClose();
                                                         }}
                                                     >
-                                                        <FiEdit2 /> Edit
+                                                        <FiEdit2 /> {translations[language].edit}
                                                     </div>
                                                     <div 
                                                         className="post-menu-option delete"
@@ -249,7 +293,7 @@ const UserProfile = ({ user, onBack }) => {
                                                             handleMenuClose();
                                                         }}
                                                     >
-                                                        <FiTrash2 /> Delete
+                                                        <FiTrash2 /> {translations[language].delete}
                                                     </div>
                                                 </>
                                             ) : null}
@@ -260,7 +304,7 @@ const UserProfile = ({ user, onBack }) => {
                                                     handleMenuClose();
                                                 }}
                                             >
-                                                <FiHeart /> Like
+                                                <FiHeart /> {translations[language].like}
                                             </div>
                                         </div>
                                     )}
@@ -274,55 +318,83 @@ const UserProfile = ({ user, onBack }) => {
                                         onChange={(e) => setEditingPost({ ...editingPost, content: e.target.value })}
                                         maxLength={280}
                                     />
+                                    <div className="edit-media-options">
+                                        <label className="upload-button">
+                                            <input
+                                                type="file"
+                                                accept="image/*,video/*"
+                                                onChange={(e) => handleFileUpload(e, true)}
+                                                style={{ display: 'none' }}
+                                            />
+                                            <FiImage className="upload-icon" />
+                                            <span>{translations[language].addImage}</span>
+                                        </label>
+                                        {editingPost.media_url && (
+                                            <div className="preview-container">
+                                                {editingPost.media_url.match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                                                    <img src={editingPost.media_url} alt="Preview" className="media-preview" />
+                                                ) : (
+                                                    <video src={editingPost.media_url} controls className="media-preview" />
+                                                )}
+                                                <button
+                                                    type="button"
+                                                    className="remove-media"
+                                                    onClick={() => setEditingPost({ ...editingPost, media_url: '' })}
+                                                >
+                                                    ×
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                     <div className="edit-actions">
                                         <button 
                                             onClick={() => handleUpdatePost(post.post_id)}
                                             className="save-edit"
                                         >
-                                            Save
+                                            {translations[language].save}
                                         </button>
                                         <button 
                                             onClick={() => setEditingPost(null)}
                                             className="cancel-edit"
                                         >
-                                            Cancel
+                                            {translations[language].cancel}
                                         </button>
                                     </div>
                                 </div>
                             ) : (
                                 <>
-                            <div className="post-content">{post.content}</div>
-                            {post.media_url && (
-                                <div className="post-media">
-                                    {post.media_url.match(/\.(jpg|jpeg|png|gif)$/i) ? (
-                                        <img 
-                                            src={post.media_url.startsWith('http') ? post.media_url : `http://localhost:5000${post.media_url}`} 
-                                            alt="Post media" 
-                                            style={{ maxWidth: '100%', height: 'auto' }}
-                                        />
-                                    ) : (
-                                        <video 
-                                            src={post.media_url.startsWith('http') ? post.media_url : `http://localhost:5000${post.media_url}`} 
-                                            controls 
-                                            style={{ maxWidth: '100%', height: 'auto' }}
-                                        />
+                                    <div className="post-content">{post.content}</div>
+                                    {post.media_url && (
+                                        <div className="post-media">
+                                            {post.media_url.match(/\.(jpg|jpeg|png|gif)$/i) ? (
+                                                <img 
+                                                    src={post.media_url.startsWith('http') ? post.media_url : `http://localhost:5000${post.media_url}`} 
+                                                    alt="Post media" 
+                                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                                />
+                                            ) : (
+                                                <video 
+                                                    src={post.media_url.startsWith('http') ? post.media_url : `http://localhost:5000${post.media_url}`} 
+                                                    controls 
+                                                    style={{ maxWidth: '100%', height: 'auto' }}
+                                                />
+                                            )}
+                                        </div>
                                     )}
-                                </div>
-                            )}
-                            
-                            <div className="post-interactions">
-                                <button className="interaction-button">
-                                    <FiMessageCircle className="interaction-icon" />
-                                    <span>Comment</span>
-                                </button>
+                                    
+                                    <div className="post-interactions">
+                                        <button className="interaction-button">
+                                            <FiMessageCircle className="interaction-icon" />
+                                            <span>{translations[language].comment}</span>
+                                        </button>
                                         <button 
                                             className={`interaction-button ${likedPosts.has(post.post_id) ? 'liked' : ''}`}
                                             onClick={() => handleLike(post.post_id)}
                                         >
-                                    <FiHeart className="interaction-icon" />
-                                    <span>Like</span>
-                                </button>
-                            </div>
+                                            <FiHeart className="interaction-icon" />
+                                            <span>{translations[language].like}</span>
+                                        </button>
+                                    </div>
                                 </>
                             )}
                         </div>
@@ -340,20 +412,20 @@ const UserProfile = ({ user, onBack }) => {
             {postToDelete && (
                 <div className="modal-overlay" style={{ zIndex: 1100 }}>
                     <div className="delete-confirm-modal">
-                        <h3>Confirm Delete</h3>
-                        <p>Are you sure you want to delete this post? This action cannot be undone.</p>
+                        <h3>{translations[language].confirmDelete}</h3>
+                        <p>{translations[language].deleteConfirmation}</p>
                         <div className="modal-actions">
                             <button 
                                 className="cancel-button"
                                 onClick={() => setPostToDelete(null)}
                             >
-                                Cancel
+                                {translations[language].cancel}
                             </button>
                             <button 
                                 className="confirm-delete-button"
                                 onClick={() => handleDeletePost(postToDelete)}
                             >
-                                Delete
+                                {translations[language].delete}
                             </button>
                         </div>
                     </div>
