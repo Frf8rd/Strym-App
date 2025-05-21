@@ -1,0 +1,69 @@
+.trending-section {
+    background: #000000;
+    border-radius: 16px;
+    border: 0.5px solid #474747;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+    margin: 18px 0;
+    padding: 16px;
+}
+
+.trending-section h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #e7e9ea;
+}
+
+.trending-users-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.trending-user-card {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-radius: 12px;
+    transition: background-color 0.2s;
+}
+
+.trending-user-card:hover {
+    background-color: #181818;
+}
+
+.trending-user-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    margin-right: 12px;
+}
+
+.trending-user-info {
+    flex: 1;
+}
+
+.trending-user-name {
+    font-weight: 700;
+    color: #e7e9ea;
+    margin-bottom: 4px;
+}
+
+.trending-user-followers {
+    color: #71767b;
+    font-size: 14px;
+}
+
+.follow-button {
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.follow-button:hover {
+    background-color: #1a8cd8;
+} 

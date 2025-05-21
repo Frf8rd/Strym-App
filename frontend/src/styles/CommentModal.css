@@ -1,0 +1,246 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #000;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 90vh;
+    overflow-y: auto;
+    padding: 0 16px 16px 16px;
+    position: relative;
+    border: 1px solid #2f3336;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    position: sticky;
+    top: 0;
+    background-color: #000;
+    z-index: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 -16px 16px -16px;
+    padding: 16px;
+    border-bottom: 1px solid #2f3336;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #e7e9ea;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #71767b;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background: #181818;
+    color: #e7e9ea;
+}
+
+.post-card {
+    background-color: #000;
+    border: 1px solid #2f3336;
+    border-radius: 12px;
+    padding: 16px;
+    margin-bottom: 16px;
+    position: relative;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.user-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-weight: 700;
+    color: #e7e9ea;
+    font-size: 15px;
+}
+
+.post-time {
+    color: #71767b;
+    font-size: 14px;
+}
+
+.post-content {
+    color: #e7e9ea;
+    font-size: 15px;
+    line-height: 1.5;
+    margin-bottom: 12px;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.post-media {
+    margin-bottom: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+}
+
+.post-media img,
+.post-media video {
+    width: 100%;
+    border-radius: 12px;
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+.comment-form {
+    margin-bottom: 16px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    min-height: 100px;
+    background: transparent;
+    border: 1px solid #2f3336;
+    
+    color: #e7e9ea;
+    font-size: 16px;
+    padding: 12px;
+    resize: none;
+    margin-bottom: 12px;
+}
+
+.comment-form textarea:focus {
+    outline: none;
+    border-color: #1d9bf0;
+}
+
+.comment-form button {
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    padding: 8px 20px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.comment-form button:hover {
+    background-color: #1a8cd8;
+}
+
+.comment-form button:disabled {
+    background-color: #1d9bf050;
+    cursor: not-allowed;
+}
+
+.comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.comment {
+    padding: 16px;
+    border: 1px solid #2f3336;
+    border-radius: 12px;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.comment-details {
+    display: flex;
+    flex-direction: column;
+    margin-left: 12px;
+    flex: 1;
+}
+
+.comment-time {
+    color: #71767b;
+    font-size: 14px;
+}
+
+.delete-comment {
+    background: none;
+    border: none;
+    color: #f4212e;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.delete-comment:hover {
+    background-color: rgba(244, 33, 46, 0.1);
+}
+
+.comment-content {
+    font-size: 16px;
+    line-height: 1.4;
+    color: #e7e9ea;
+}
+
+.loading {
+    text-align: center;
+    color: #71767b;
+    padding: 20px;
+}
+
+.no-comments {
+    text-align: center;
+    color: #71767b;
+    padding: 20px;
+}
+
+.error-message {
+    color: #f4212e;
+    padding: 12px;
+    background: rgba(244, 33, 46, 0.1);
+    border-radius: 8px;
+    margin-bottom: 16px;
+    text-align: center;
+} 

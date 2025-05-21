@@ -3,6 +3,9 @@ from flask_session import Session
 from flask_cors import CORS
 from config import Config
 from routes.auth import auth_bp
+from routes.posts import posts_bp
+from routes.users import users_bp
+from routes.admin import admin_bp
 from database import db, init_db
 import os
 
@@ -21,25 +24,18 @@ if not os.path.exists(app.config['SESSION_FILE_DIR']):
 print(f"Session directory: {app.config['SESSION_FILE_DIR']}")
 print(f"Session directory exists: {os.path.exists(app.config['SESSION_FILE_DIR'])}")
 
-# Configure CORS based on environment
-if app.debug:  # Development mode
-    CORS(app, 
-         resources={r"/*": {
-             "origins": ["http://localhost:*", "http://127.0.0.1:*"],
-             "supports_credentials": True,
-             "allow_headers": ["Content-Type", "Authorization", "Accept"],
-             "expose_headers": ["Content-Type", "Authorization", "Accept"],
-             "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
-         }})
-else:  # Production mode
-    CORS(app, 
-         resources={r"/*": {
-             "origins": app.config['CORS_ORIGINS'],
-             "supports_credentials": True,
-             "allow_headers": app.config['CORS_ALLOW_HEADERS'],
-             "expose_headers": app.config['CORS_EXPOSE_HEADERS'],
-             "methods": app.config['CORS_METHODS']
-         }})
+# Configure CORS
+CORS(app, resources={
+    r"/*": {
+        "origins": ["http://localhost:5173", "http://127.0.0.1:5173"],
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept"],
+        "expose_headers": ["Content-Type", "Authorization", "Accept"],
+        "supports_credentials": True,
+        "max_age": 3600,
+        "send_wildcard": False
+    }
+})
 
 # Initialize database
 init_db(app)
@@ -58,6 +54,9 @@ def serve_uploaded_file(filename):
 
 # Register blueprints
 app.register_blueprint(auth_bp)
+app.register_blueprint(posts_bp)
+app.register_blueprint(users_bp)
+app.register_blueprint(admin_bp)
 
 # Debug information
 print(f"Current directory: {os.getcwd()}")

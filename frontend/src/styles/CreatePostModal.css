@@ -1,0 +1,202 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background-color: #000;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    padding: 16px;
+    position: relative;
+    border: 1px solid #2f3336;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.modal-header h2 {
+    font-size: 20px;
+    font-weight: 800;
+    color: #e7e9ea;
+}
+
+.close-button {
+    background: none;
+    border: none;
+    color: #71767b;
+    font-size: 22px;
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.close-button:hover {
+    background: #181818;
+    color: #e7e9ea;
+}
+
+.post-input-container {
+    margin-bottom: 16px;
+}
+
+.post-input-container textarea {
+    width: 100%;
+    min-height: 100px;
+    background: transparent;
+    border: none;
+    color: #e7e9ea;
+    font-size: 20px;
+    resize: none;
+    padding: 8px 0;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+}
+
+.post-input-container textarea::placeholder {
+    color: #71767b;
+}
+
+.post-input-container textarea:focus {
+    outline: none;
+}
+
+.media-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.upload-button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 8px;
+    color: #1d9bf0;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: fit-content;
+    border-radius: 50%;
+}
+
+.upload-button:hover {
+    background: rgba(29, 155, 240, 0.1);
+}
+
+.upload-icon {
+    font-size: 20px;
+}
+
+.uploading-text {
+    color: #71767b;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.upload-error {
+    color: #f4212e;
+    font-size: 14px;
+    margin-left: 8px;
+}
+
+.preview-container {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    margin-top: 12px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid #2f3336;
+}
+
+.media-preview {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    display: block;
+}
+
+.remove-media {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: rgba(0, 0, 0, 0.6);
+    border: none;
+    color: #fff;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.2s ease;
+}
+
+.remove-media:hover {
+    background: rgba(244, 33, 46, 0.8);
+}
+
+.modal-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding-top: 12px;
+    border-top: 1px solid #2f3336;
+}
+
+.submit-post {
+    background-color: #1d9bf0;
+    color: white;
+    border: none;
+    border-radius: 24px;
+    padding: 8px 20px;
+    font-weight: 700;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.submit-post:hover {
+    background-color: #1a8cd8;
+}
+
+.submit-post:disabled {
+    background-color: #1d9bf050;
+    cursor: not-allowed;
+}
+
+/* Character counter */
+.character-counter {
+    color: #71767b;
+    font-size: 14px;
+    text-align: right;
+    margin-top: 4px;
+}
+
+.character-counter.warning {
+    color: #ffd400;
+}
+
+.character-counter.error {
+    color: #f4212e;
+}

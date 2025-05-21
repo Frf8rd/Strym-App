@@ -49,5 +49,5 @@ class Config:
     CORS_METHODS = ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
     
     # Upload folder configuration
-    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'static', 'uploads')
+    UPLOAD_FOLDER = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uploads')
     MAX_CONTENT_LENGTH = 16 * 1024 * 1024  # 16MB max file size 

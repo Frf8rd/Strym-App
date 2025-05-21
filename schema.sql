@@ -51,7 +51,7 @@ CREATE TABLE likes (
     post_id INT,
     user_id INT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (post_id) REFERENCES posts(post_id),
+    FOREIGN KEY (post_id) REFERENCES posts(post_id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(user_id),
     UNIQUE (post_id, user_id)  -- Un utilizator nu poate da like de mai multe ori la aceeași postare
 );
