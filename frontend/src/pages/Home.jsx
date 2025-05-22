@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
@@ -8,8 +8,6 @@ import CreatePostModal from '../components/CreatePostModal';
 import CommentModal from '../components/CommentModal';
 import UserProfile from '../components/UserProfile';
 import Settings from '../components/Settings';
-import TrendingUsers from '../components/TrendingUsers';
-import FollowingUsers from '../components/FollowingUsers';
 import SearchResults from '../components/SearchResults';
 import '../styles/Home.css';
 import { useLanguage } from '../context/LanguageContext';
@@ -45,6 +43,41 @@ const Home = () => {
     const [searchResults, setSearchResults] = useState(null);
     const [isSearching, setIsSearching] = useState(false);
     const [postToDelete, setPostToDelete] = useState(null);
+
+
+    const rightSectionRef = useRef(null);
+    const [isScrollLocked, setIsScrollLocked] = useState(false);
+
+    useEffect(() => {
+        const container = rightSectionRef.current;
+
+        const handleScroll = () => {
+            if (!container) return;
+            const { scrollTop, scrollHeight, clientHeight } = container;
+
+            // Dacă suntem jos de tot
+            if (scrollTop + clientHeight >= scrollHeight - 1) {
+                container.style.overflowY = 'hidden';
+                setIsScrollLocked(true);
+            }
+
+            // Dacă dăm în sus
+            if (isScrollLocked && scrollTop + clientHeight < scrollHeight - 10) {
+                container.style.overflowY = 'auto';
+                setIsScrollLocked(false);
+            }
+        };
+
+        if (container) {
+            container.addEventListener('scroll', handleScroll);
+        }
+
+        return () => {
+            if (container) {
+                container.removeEventListener('scroll', handleScroll);
+            }
+        };
+    }, [isScrollLocked]);
 
     useEffect(() => {
         if (!isAuthenticated) {
@@ -378,7 +411,8 @@ const Home = () => {
             </div>
 
             {/* Right Section */}
-            <div className="right-section">
+            <div className="right-section" ref={rightSectionRef}>
+
                 <div className="content-wrapper">
                     {/* Main Content */}
                     <div className="main-content">
@@ -627,6 +661,17 @@ const Home = () => {
                                 value={searchQuery}
                                 onChange={handleSearchChange}
                             />
+                        </div>
+                        
+                        <div className="trending-section">
+                            <h3>{translations[language].trendingUsers}</h3>
+                        </div>
+                        <div className="following-section">
+                            <h3>{translations[language].following}</h3>
+                        </div>
+                        <div className="about-section">
+                            <h3>{translations[language].aboutUs}</h3>
+                            <p>{translations[language].aboutUsDescription}</p>
                         </div>
                     </div>
                 </div>
