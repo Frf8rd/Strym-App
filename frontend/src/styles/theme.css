@@ -1,0 +1,74 @@
+:root {
+    /* Dark theme (default) */
+    --background-primary: #000;
+    --background-primary-rgb: 0, 0, 0;
+    --background-secondary: #16181c;
+    --background-tertiary: #181818;
+    --background-hover: rgba(239, 243, 244, 0.1);
+    
+    --text-primary: #e7e9ea;
+    --text-secondary: #71767b;
+    --text-tertiary: #a0a0a0;
+    
+    --border-color: #2f3336;
+    --border-color-hover: #474747;
+    
+    --accent-primary: #1d9bf0;
+    --accent-primary-hover: #1a8cd8;
+    --accent-secondary: #f4212e;
+    --accent-secondary-hover: #e02432;
+    
+    --button-primary: #1d9bf0;
+    --button-primary-hover: #1a8cd8;
+    --button-secondary: transparent;
+    --button-secondary-hover: #181818;
+    
+    --input-background: #16181c;
+    --input-border: #2f3336;
+    --input-focus: #1d9bf0;
+    
+    --modal-background: rgba(0, 0, 0, 0.5);
+    --modal-content-background: #000;
+    
+    --scrollbar-track: #000;
+    --scrollbar-thumb: #2f3336;
+    
+    --shadow-color: rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="light"] {
+    --background-primary: #ffffff;
+    --background-primary-rgb: 255, 255, 255;
+    --background-secondary: #f7f9f9;
+    --background-tertiary: #eff3f4;
+    --background-hover: rgba(0, 0, 0, 0.05);
+    
+    --text-primary: #0f1419;
+    --text-secondary: #536471;
+    --text-tertiary: #536471;
+    
+    --border-color: #000000;
+    --border-color-hover: #000000;
+    
+    --accent-primary: #1d9bf0;
+    --accent-primary-hover: #1a8cd8;
+    --accent-secondary: #f4212e;
+    --accent-secondary-hover: #e02432;
+    
+    --button-primary: #1d9bf0;
+    --button-primary-hover: #1a8cd8;
+    --button-secondary: transparent;
+    --button-secondary-hover: rgba(0, 0, 0, 0.05);
+    
+    --input-background: #ffffff;
+    --input-border: #cfd9de;
+    --input-focus: #1d9bf0;
+    
+    --modal-background: rgba(0, 0, 0, 0.4);
+    --modal-content-background: #ffffff;
+    
+    --scrollbar-track: #f7f9f9;
+    --scrollbar-thumb: #cfd9de;
+    
+    --shadow-color: rgba(0, 0, 0, 0.1);
+} 

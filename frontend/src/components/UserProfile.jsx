@@ -5,10 +5,13 @@ import { useLanguage } from '../context/LanguageContext';
 import EditProfileModal from './EditProfileModal';
 import { FiArrowLeft, FiMessageCircle, FiHeart, FiMoreHorizontal, FiEdit2, FiTrash2, FiImage } from 'react-icons/fi';
 import '../styles/UserProfile.css';
+import CommentModal from './CommentModal';
+import { useNavigate } from 'react-router-dom';
 
 const UserProfile = ({ user, onBack }) => {
     const { user: currentUser } = useAuth();
     const { language, translations } = useLanguage();
+    const navigate = useNavigate();
     const [isFollowing, setIsFollowing] = useState(user.isFollowing || false);
     const [followersCount, setFollowersCount] = useState(user.followersCount || 0);
     const [followingCount, setFollowingCount] = useState(user.followingCount || 0);
@@ -21,6 +24,8 @@ const UserProfile = ({ user, onBack }) => {
     const [editingPost, setEditingPost] = useState(null);
     const [likedPosts, setLikedPosts] = useState(new Set());
     const [postToDelete, setPostToDelete] = useState(null);
+    const [selectedPost, setSelectedPost] = useState(null);
+    const [isCommentModalOpen, setIsCommentModalOpen] = useState(false);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -175,6 +180,10 @@ const UserProfile = ({ user, onBack }) => {
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, [activeMenu]);
+
+    const handleUserProfileClick = (userId) => {
+        navigate(`/user/${userId}`);
+    };
 
     return (
         <div className="profile-container">
@@ -383,7 +392,13 @@ const UserProfile = ({ user, onBack }) => {
                                     )}
                                     
                                     <div className="post-interactions">
-                                        <button className="interaction-button">
+                                        <button 
+                                            className="interaction-button"
+                                            onClick={() => {
+                                                setSelectedPost(post);
+                                                setIsCommentModalOpen(true);
+                                            }}
+                                        >
                                             <FiMessageCircle className="interaction-icon" />
                                             <span>{translations[language].comment}</span>
                                         </button>
@@ -407,6 +422,17 @@ const UserProfile = ({ user, onBack }) => {
                 onClose={() => setShowEditModal(false)}
                 user={user}
                 onProfileUpdate={handleProfileUpdate}
+            />
+
+            <CommentModal
+                isOpen={isCommentModalOpen}
+                onClose={() => {
+                    setIsCommentModalOpen(false);
+                    setSelectedPost(null);
+                }}
+                post={selectedPost}
+                user={user}
+                onUserProfileClick={handleUserProfileClick}
             />
 
             {postToDelete && (

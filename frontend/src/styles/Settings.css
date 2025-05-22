@@ -1,6 +1,6 @@
 .settings-container {
-    background: #000;
-    color: #fff;
+    background: var(--background-primary);
+    color: var(--text-primary);
     height: 100vh;
     display: flex;
     flex-direction: column;
@@ -10,10 +10,10 @@
     display: flex;
     align-items: center;
     padding: 16px;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid var(--border-color);
     position: sticky;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.65);
+    background-color: var(--background-primary);
     backdrop-filter: blur(12px);
     z-index: 10;
 }
@@ -23,12 +23,13 @@
     margin-left: 20px;
     font-size: 20px;
     font-weight: 800;
+    color: var(--text-primary);
 }
 
 .back-button {
     background: none;
     border: none;
-    color: #fff;
+    color: var(--text-primary);
     font-size: 20px;
     cursor: pointer;
     padding: 8px;
@@ -39,6 +40,10 @@
     transition: background-color 0.2s;
 }
 
+.back-button:hover {
+    background-color: var(--background-hover);
+}
+
 .settings-layout {
     display: flex;
     height: 100%;
@@ -46,13 +51,14 @@
 
 .settings-sidebar {
     width: 250px;
-    border-right: 1px solid #2f3336;
+    border-right: 1px solid var(--border-color);
     padding: 16px 0;
+    background-color: var(--background-primary);
 }
 
 .sidebar-header {
     padding: 0 16px 16px;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid var(--border-color);
     margin-bottom: 8px;
 }
 
@@ -60,6 +66,7 @@
     margin: 0;
     font-size: 20px;
     font-weight: 800;
+    color: var(--text-primary);
 }
 
 .settings-nav-item {
@@ -71,7 +78,7 @@
     border: none;
     text-align: left;
     cursor: pointer;
-    color: #e7e9ea;
+    color: var(--text-primary);
     font-size: 14px;
     font-weight: 500;
     transition: background-color 0.2s;
@@ -80,19 +87,20 @@
 }
 
 .settings-nav-item:hover {
-    background-color: rgba(239, 243, 244, 0.1);
+    background-color: var(--background-hover);
 }
 
 .settings-nav-item.active {
     font-weight: 700;
-    color: #fff;
-    background-color: rgba(239, 243, 244, 0.1);
+    color: var(--text-primary);
+    background-color: var(--background-hover);
 }
 
 .nav-icon {
     margin-right: 12px;
     font-size: 18px;
     min-width: 18px;
+    color: var(--text-primary);
 }
 
 .settings-content {
@@ -102,6 +110,7 @@
     max-width: 600px;
     margin: 0 auto;
     width: 100%;
+    background-color: var(--background-primary);
 }
 
 .settings-section {
@@ -112,11 +121,12 @@
     margin: 0 0 20px 0;
     font-size: 18px;
     font-weight: 800;
+    color: var(--text-primary);
 }
 
 .settings-group {
     margin-bottom: 24px;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid var(--border-color);
     padding-bottom: 16px;
 }
 
@@ -130,14 +140,14 @@
     margin: 0 0 12px 0;
     font-size: 15px;
     font-weight: 700;
-    color: #e7e9ea;
+    color: var(--text-primary);
 }
 
 .settings-group label {
     display: block;
     margin-bottom: 4px;
     font-weight: 600;
-    color: #e7e9ea;
+    color: var(--text-primary);
     font-size: 14px;
 }
 
@@ -147,11 +157,11 @@
 .settings-group select {
     width: 100%;
     padding: 8px 12px;
-    background-color: transparent;
-    border: 1px solid #2f3336;
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     font-size: 14px;
-    color: #e7e9ea;
+    color: var(--text-primary);
     margin-bottom: 4px;
 }
 
@@ -160,7 +170,7 @@
 .settings-group textarea:focus,
 .settings-group select:focus {
     outline: none;
-    border-color: #1d9bf0;
+    border-color: var(--input-focus);
 }
 
 .settings-group textarea {
@@ -169,7 +179,7 @@
 }
 
 .input-hint {
-    color: #71767b;
+    color: var(--text-secondary);
     font-size: 12px;
     margin: 4px 0 0;
 }
@@ -178,7 +188,7 @@
     display: flex;
     flex-direction: column;
     padding: 12px 0;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid var(--border-color);
 }
 
 .settings-option:last-child {
@@ -192,13 +202,13 @@
 .option-info label {
     display: block;
     font-weight: 600;
-    color: #e7e9ea;
+    color: var(--text-primary);
     font-size: 14px;
     margin-bottom: 4px;
 }
 
 .option-info p {
-    color: #71767b;
+    color: var(--text-secondary);
     font-size: 12px;
     margin: 0;
 }
@@ -206,11 +216,11 @@
 .settings-option select {
     width: 100%;
     padding: 8px 12px;
-    background-color: #000;
-    border: 1px solid #2f3336;
+    background-color: var(--input-background);
+    border: 1px solid var(--input-border);
     border-radius: 4px;
     font-size: 14px;
-    color: #e7e9ea;
+    color: var(--text-primary);
     margin-top: 4px;
     cursor: pointer;
     appearance: none;
@@ -224,30 +234,30 @@
 }
 
 .settings-option select:hover {
-    border-color: #1d9bf0;
+    border-color: var(--input-focus);
 }
 
 .settings-option select:focus {
     outline: none;
-    border-color: #1d9bf0;
+    border-color: var(--input-focus);
 }
 
 .settings-option select option {
-    background-color: #000;
-    color: #e7e9ea;
+    background-color: var(--input-background);
+    color: var(--text-primary);
     padding: 8px;
 }
 
 /* For Firefox */
 .settings-option select option {
-    background-color: #000 !important;
-    color: #e7e9ea !important;
+    background-color: var(--input-background) !important;
+    color: var(--text-primary) !important;
 }
 
 /* For Webkit browsers */
 .settings-option select option:checked {
-    background-color: #1d9bf0 !important;
-    color: #fff !important;
+    background-color: var(--accent-primary) !important;
+    color: var(--text-primary) !important;
 }
 
 .settings-option .toggle-switch {
@@ -276,7 +286,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #71767b;
+    background-color: var(--text-secondary);
     transition: .4s;
     border-radius: 20px;
 }
@@ -288,13 +298,13 @@
     width: 16px;
     left: 2px;
     bottom: 2px;
-    background-color: white;
+    background-color: var(--background-primary);
     transition: .4s;
     border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: #1d9bf0;
+    background-color: var(--accent-primary);
 }
 
 input:checked + .slider:before {
@@ -308,8 +318,8 @@ input:checked + .slider:before {
 }
 
 .save-button {
-    background-color: #1d9bf0;
-    color: white;
+    background-color: var(--button-primary);
+    color: var(--text-primary);
     border: none;
     padding: 12px 24px;
     border-radius: 24px;
@@ -320,5 +330,5 @@ input:checked + .slider:before {
 }
 
 .save-button:hover {
-    background-color: #1a8cd8;
+    background-color: var(--button-primary-hover);
 }

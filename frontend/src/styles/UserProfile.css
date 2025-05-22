@@ -1,6 +1,6 @@
 .twitter-profile {
-  background-color: #000;
-  color: #e7e9ea;
+  background-color: var(--background-primary);
+  color: var(--text-primary);
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
 }
 
@@ -8,24 +8,26 @@
 .profile-top-header {
   display: flex;
   align-items: center;
-  padding: 12px 16px;
+  padding: 12px 0;
   position: sticky;
   top: 0;
-  background-color: rgba(0, 0, 0, 0.65);
+  background-color: rgba(var(--background-primary-rgb), 0.85);
   backdrop-filter: blur(12px);
-  z-index: 10;
-  border-bottom: 1px solid #2f3336;
+  z-index: 999;
+  border-bottom: 1px solid var(--border-color);
+  width: 100%;
+  margin: 0;
 }
 
 .back-button {
   background: transparent;
   border: none;
-  color: #e7e9ea;
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 8px;
+  padding: 8px 16px;
   border-radius: 50%;
   margin-right: 20px;
   font-size: 20px;
@@ -36,19 +38,20 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-right: 16px;
 }
 
 .profile-top-info .profile-name {
   font-size: 1.45rem;
   font-weight: 700;
   margin: 0;
-  color: #e7e9ea;
+  color: var(--text-primary);
   line-height: 1.2;
 }
 
 .post-count {
   font-size: 0.8125rem;
-  color: #71767b;
+  color: var(--text-secondary);
   margin-top: 2px;
 }
 
@@ -103,17 +106,17 @@
   font-size: 20px;
   font-weight: 800;
   margin-bottom: 8px;
-  color: #e7e9ea;
+  color: var(--text-primary);
 }
 
 .profile-info .profile-username {
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 15px;
   margin-bottom: 15px;
 }
 
 .profile-info .profile-bio {
-  color: #e7e9ea;
+  color: var(--text-primary);
   font-size: 15px;
   line-height: 1.4;
   margin-bottom: 20px;
@@ -134,8 +137,8 @@
 }
 
 .follow-button {
-  background-color: #ffffff !important;
-  color: #000000 !important;
+  background-color: var(--button-primary) !important;
+  color: var(--text-primary) !important;
   border: none;
   border-radius: 20px;
   padding: 10px 24px;
@@ -146,18 +149,18 @@
 }
 
 .follow-button:hover {
-  background-color: #e6e6e6 !important;
+  background-color: var(--button-primary-hover) !important;
 }
 
 .follow-button.following {
-  background-color: #000000 !important;
-  color: #ffffff !important;
-  border: 1px solid #2f3336;
+  background-color: var(--background-primary) !important;
+  color: var(--text-primary) !important;
+  border: 1px solid var(--border-color);
 }
 
 .follow-button.following:hover {
-  background-color: #181818 !important;
-  border-color: #2f3336;
+  background-color: var(--background-hover) !important;
+  border-color: var(--border-color);
 }
 
 .follow-button:disabled {
@@ -169,17 +172,17 @@
   font-size: 24px;
   font-weight: 800;
   margin-bottom: 8px;
-  color: #e7e9ea;
+  color: var(--text-primary);
 }
 
 .profile-username {
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 16px;
   margin-bottom: 30px;
 }
 
 .profile-bio {
-  color: #e7e9ea;
+  color: var(--text-primary);
   font-size: 16px;
   line-height: 1.4;
   margin-bottom: 20px;
@@ -195,7 +198,7 @@
   display: flex;
   align-items: center;
   gap: 4px;
-  color: #e7e9ea;
+  color: var(--text-primary);
   font-size: 15px;
 }
 
@@ -204,7 +207,7 @@
 }
 
 .stat-label {
-  color: #71767b;
+  color: var(--text-secondary);
 }
 
 /* Profile Info */
@@ -222,7 +225,7 @@
   font-size: 1.25rem;
   font-weight: 700;
   margin: 0;
-  color: #e7e9ea;
+  color: var(--text-primary);
 }
 
 .verified-badge {
@@ -231,7 +234,7 @@
 }
 
 .profile-handle {
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 0.9375rem;
   display: block;
   margin-bottom: 12px;
@@ -242,7 +245,7 @@
   flex-wrap: wrap;
   gap: 12px;
   margin-bottom: 16px;
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 0.9375rem;
 }
 
@@ -284,15 +287,15 @@
 
 .stat-value {
   font-weight: 700;
-  color: #e7e9ea;
+  color: var(--text-primary);
 }
 
 .stat-label {
-  color: #71767b;
+  color: var(--text-secondary);
 }
 
 .following-info {
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 0.9375rem;
   margin-bottom: 16px;
 }
@@ -301,9 +304,9 @@
 .feed-type-selector {
     display: flex;
     justify-content: space-around;
-    border-bottom: 1px solid #2f3336;
+    border-bottom: 1px solid var(--border-color);
     margin-top: 16px;
-    background-color: #000;
+    background-color: var(--background-primary);
 }
 
 .feed-type-btn {
@@ -311,7 +314,7 @@
     padding: 16px;
     background: none;
     border: none;
-    color: #71767b;
+    color: var(--text-secondary);
     font-weight: 600;
     font-size: 15px;
     cursor: pointer;
@@ -320,11 +323,11 @@
 }
 
 .feed-type-btn:hover {
-    background-color: rgba(231, 233, 234, 0.1);
+    background-color: var(--background-hover);
 }
 
 .feed-type-btn.active {
-    color: #e7e9ea;
+    color: var(--text-primary);
     font-weight: 700;
 }
 
@@ -335,7 +338,7 @@
     left: 0;
     right: 0;
     height: 4px;
-    background-color: #1d9bf0;
+    background-color: var(--accent-primary);
     border-radius: 2px;
 }
 
@@ -347,20 +350,20 @@
 /* Pinned Post */
 .pinned-post {
   padding: 12px 16px;
-  border-bottom: 1px solid #2f3336;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .pin-indicator {
   display: flex;
   align-items: center;
   gap: 6px;
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 0.8125rem;
   margin-bottom: 8px;
 }
 
 .pinned-label {
-  color: #71767b;
+  color: var(--text-secondary);
   font-size: 0.8125rem;
 }
 
@@ -395,6 +398,7 @@
 
 .post-author {
   font-weight: 700;
+  color: var(--text-primary);
 }
 
 .verified-badge-small {
@@ -403,12 +407,12 @@
 }
 
 .post-handle, .post-time {
-  color: #71767b;
+  color: var(--text-secondary);
 }
 
 .post-options {
   margin-left: auto;
-  color: #71767b;
+  color: var(--text-secondary);
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -419,18 +423,19 @@
 }
 
 .post-options:hover {
-  background-color: rgba(29, 155, 240, 0.1);
-  color: #1d9bf0;
+  background-color: var(--background-hover);
+  color: var(--accent-primary);
 }
 
 .post-text {
   margin-bottom: 12px;
   line-height: 1.4;
+  color: var(--text-primary);
 }
 
 .breaking-tag {
   font-weight: 700;
-  color: #e7e9ea;
+  color: var(--text-primary);
 }
 
 .post-actions {
@@ -443,30 +448,30 @@
 .post-action {
   display: flex;
   align-items: center;
-  color: #71767b;
+  color: var(--text-secondary);
   cursor: pointer;
   padding: 8px;
   border-radius: 50%;
 }
 
 .post-action:hover {
-  background-color: rgba(29, 155, 240, 0.1);
-  color: #1d9bf0;
+  background-color: var(--background-hover);
+  color: var(--accent-primary);
 }
 
 .post-action:nth-child(2):hover {
-  background-color: rgba(249, 24, 128, 0.1);
-  color: #f91880;
+  background-color: var(--background-hover);
+  color: var(--accent-secondary);
 }
 
 .post-action:nth-child(3):hover {
-  background-color: rgba(0, 186, 124, 0.1);
-  color: #00ba7c;
+  background-color: var(--background-hover);
+  color: var(--accent-primary);
 }
 
 .post-action:nth-child(4):hover {
-  background-color: rgba(29, 155, 240, 0.1);
-  color: #1d9bf0;
+  background-color: var(--background-hover);
+  color: var(--accent-primary);
 }
 
 /* Responsive styles */
@@ -483,7 +488,8 @@
 
 /* For dark mode emphasis */
 ::selection {
-  background-color: rgba(29, 155, 240, 0.4);
+  background-color: var(--accent-primary);
+  opacity: 0.4;
 }
 
 /* For mobile compatibility */
@@ -493,7 +499,7 @@
 
 body {
   margin: 0;
-  background-color: #000;
+  background-color: var(--background-primary);
 }
 
 .edit-media-options {
@@ -510,7 +516,7 @@ body {
     background: transparent;
     border: none;
     padding: 8px;
-    color: #1d9bf0;
+    color: var(--accent-primary);
     cursor: pointer;
     transition: all 0.2s ease;
     width: fit-content;
@@ -518,7 +524,7 @@ body {
 }
 
 .upload-button:hover {
-    background: rgba(29, 155, 240, 0.1);
+    background: var(--background-hover);
 }
 
 .upload-icon {
@@ -532,7 +538,7 @@ body {
     margin-top: 12px;
     border-radius: 12px;
     overflow: hidden;
-    border: 1px solid #2f3336;
+    border: 1px solid var(--border-color);
 }
 
 .media-preview {
@@ -546,9 +552,10 @@ body {
     position: absolute;
     top: 8px;
     right: 8px;
-    background: rgba(0, 0, 0, 0.6);
+    background: var(--background-primary);
+    opacity: 0.6;
     border: none;
-    color: #fff;
+    color: var(--text-primary);
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -561,5 +568,6 @@ body {
 }
 
 .remove-media:hover {
-    background: rgba(244, 33, 46, 0.8);
+    background: var(--accent-secondary);
+    opacity: 0.8;
 }

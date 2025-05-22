@@ -3,11 +3,13 @@ import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../context/LanguageContext';
 import { FiArrowLeft, FiUser, FiBell, FiGlobe, FiEye } from 'react-icons/fi';
 import '../styles/Settings.css';
+import { useTheme } from '../context/ThemeContext';
 
 const Settings = ({ onBack }) => {
     const { user } = useAuth();
     const { language, changeLanguage, translations } = useLanguage();
     const [activeSection, setActiveSection] = useState('account');
+    const { theme, toggleTheme } = useTheme();
 
     const handleLanguageChange = (e) => {
         changeLanguage(e.target.value);
@@ -95,7 +97,11 @@ const Settings = ({ onBack }) => {
                                     <p>{translations[language].darkModeHint}</p>
                                 </div>
                                 <label className="toggle-switch">
-                                    <input type="checkbox" defaultChecked />
+                                    <input 
+                                        type="checkbox" 
+                                        checked={theme === 'dark'}
+                                        onChange={toggleTheme}
+                                    />
                                     <span className="slider"></span>
                                 </label>
                             </div>

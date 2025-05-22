@@ -4,7 +4,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: var(--modal-background);
     backdrop-filter: blur(5px);
     display: flex;
     justify-content: center;
@@ -13,14 +13,14 @@
 }
 
 .modal-content {
-    background-color: #000;
+    background-color: var(--modal-content-background);
     border-radius: 16px;
     width: 90%;
     max-width: 600px;
     padding: 16px;
     position: relative;
-    border: 1px solid #2f3336;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 20px var(--shadow-color);
 }
 
 .modal-header {
@@ -33,13 +33,13 @@
 .modal-header h2 {
     font-size: 20px;
     font-weight: 800;
-    color: #e7e9ea;
+    color: var(--text-primary);
 }
 
 .close-button {
     background: none;
     border: none;
-    color: #71767b;
+    color: var(--text-secondary);
     font-size: 22px;
     cursor: pointer;
     padding: 8px;
@@ -48,8 +48,8 @@
 }
 
 .close-button:hover {
-    background: #181818;
-    color: #e7e9ea;
+    background: var(--background-tertiary);
+    color: var(--text-primary);
 }
 
 .post-input-container {
@@ -61,7 +61,7 @@
     min-height: 100px;
     background: transparent;
     border: none;
-    color: #e7e9ea;
+    color: var(--text-primary);
     font-size: 20px;
     resize: none;
     padding: 8px 0;
@@ -70,7 +70,7 @@
 }
 
 .post-input-container textarea::placeholder {
-    color: #71767b;
+    color: var(--text-secondary);
 }
 
 .post-input-container textarea:focus {
@@ -91,7 +91,7 @@
     background: transparent;
     border: none;
     padding: 8px;
-    color: #1d9bf0;
+    color: var(--accent-primary);
     cursor: pointer;
     transition: all 0.2s ease;
     width: fit-content;
@@ -99,7 +99,7 @@
 }
 
 .upload-button:hover {
-    background: rgba(29, 155, 240, 0.1);
+    background: var(--background-hover);
 }
 
 .upload-icon {
